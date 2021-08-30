@@ -31,10 +31,20 @@ main() {
   });
 
 
-  test('create WIF wallet', () {
+  test('create WIF wallet and validate address', () {
     final wif = 'L27S88Ld6thaRcSPg7pRc1PSZXomjz5RcMkkqgujur3fN5d9vVAp';
     final wallet = Wallet.fromWIF(wif);
     expect(wallet.address, '1E4RXuGMyo6yUKbeGNMh38otdF8BFrntdm');
+  });
+
+
+  test('validate signature', () {
+    final wif = 'L27S88Ld6thaRcSPg7pRc1PSZXomjz5RcMkkqgujur3fN5d9vVAp';
+    final wallet = Wallet.fromWIF(wif);
+    final message = 'Who is John Galt?';
+    final signature = wallet.sign(message);
+    final valid = wallet.verify(message: message, signature: signature);
+    expect(valid, true);
   });
 
 }
