@@ -3,22 +3,30 @@ import 'package:keycheck/key_input.dart';
 
 class HomePage extends StatefulWidget {
 
-  HomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
+
+  HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
+  
 }
 
 
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
+  void _privateKeyChange() {
+
+  }
+
+  void _publicAddressChange() {
+
+  }
+
+  void _clear() {
     setState(() {
-      _counter++;
+
     });
   }
 
@@ -36,22 +44,29 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              KeyInput(
-                hint: 'Private key'
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: KeyInput(
+                  hint: 'Public address',
+                  valueChange: _publicAddressChange,
+                ),
               ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: KeyInput(
+                  hint: 'Private key',
+                  valueChange: _privateKeyChange,
+                ),
               ),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        onPressed: _clear,
+        tooltip: 'Clear',
+        child: Icon(Icons.delete),
+      ),
     );
   }
 
