@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keycheck/key_input.dart';
+import 'package:keycheck/qr_input.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -16,17 +16,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  void _privateKeyChange() {
+  String _status = '';
+  final publicAddressController = TextEditingController(text: 'addr');
+  final privateKeyController = TextEditingController(text: 'pk');
 
-  }
-
-  void _publicAddressChange() {
-
-  }
 
   void _clear() {
+    privateKeyController.clear();
+    publicAddressController.clear();
     setState(() {
-
+      _status = '';
     });
   }
 
@@ -46,17 +45,21 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 16),
-                child: KeyInput(
+                child: QrInput(
                   hint: 'Public address',
-                  valueChange: _publicAddressChange,
+                  controller: publicAddressController,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 16),
-                child: KeyInput(
+                child: QrInput(
                   hint: 'Private key',
-                  valueChange: _privateKeyChange,
+                  controller: privateKeyController,
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Text(_status)
               ),
             ],
           ),
