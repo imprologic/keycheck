@@ -161,7 +161,7 @@ class _QrScannerState extends State<QrScanner> {
 
   void onData(Barcode scanData) {
     if (scanData.format == BarcodeFormat.qrcode) {
-      controller!.dispose();
+      controller?.dispose();
       widget.onScan(scanData.code);
       exit();
     }
