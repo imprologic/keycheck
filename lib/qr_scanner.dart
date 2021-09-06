@@ -39,9 +39,10 @@ class _QrScannerState extends State<QrScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          Expanded(flex: 1, child: _buildQrView(context)),
+          _buildQrView(context),
+          _buildTopMenu(context),
         ],
       ),
     );
@@ -68,6 +69,27 @@ class _QrScannerState extends State<QrScanner> {
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
   }
+
+
+  Widget _buildTopMenu(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: 24.0),  // TODO: Can we calculate this?
+    child: Row(
+      children: [
+        IconButton(
+          onPressed: exit, 
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+        ),
+        Spacer(flex: 1),
+        IconButton(
+          onPressed: toggleFlash, 
+          icon: Icon(Icons.flash_on),
+          color: Colors.white,
+        )
+      ],
+    ),
+  );
+
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
@@ -104,6 +126,10 @@ class _QrScannerState extends State<QrScanner> {
 
   void exit() {
     Navigator.of(context).pop();
+  }
+
+  void toggleFlash() {
+
   }
 
 }
