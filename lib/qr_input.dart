@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keycheck/qr_scanner.dart';
 
 
 class QrInput extends StatefulWidget {
@@ -51,7 +52,7 @@ class _QrInputState extends State<QrInput> {
       Padding(
         padding: EdgeInsets.only(left: 8),
         child: ElevatedButton(
-          onPressed: showScanner(), 
+          onPressed: showScanner, 
           child: Icon(Icons.qr_code),
         ),
       )
@@ -60,7 +61,13 @@ class _QrInputState extends State<QrInput> {
 
 
   showScanner() {
-
+    print('*** showScanner ***');
+    Navigator.push(
+      context, 
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => QrScanner()
+      )
+    );
   }
 
 
