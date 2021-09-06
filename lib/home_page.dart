@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keycheck/btc_util.dart';
 import 'package:keycheck/qr_input.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,19 +17,52 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  final publicAddressController = TextEditingController();
+  final privateKeyController = TextEditingController();
   String _status = '';
-  final publicAddressController = TextEditingController(text: 'addr');
-  final privateKeyController = TextEditingController(text: 'pk');
+
+
+  @override
+  void initState() {
+    super.initState();    
+    publicAddressController.addListener(_onChange);
+    privateKeyController.addListener(_onChange);
+  }
+
+
+  void _onChange() {
+    // print('[ ${publicAddressController.text}, ${privateKeyController.text} ]');
+    if (privateKeyController.text.length > 0 && publicAddressController.text.length > 0) {
+      _setStatus(_isValid() ? 'VALID' : 'INVALID');
+    } else {
+      _setStatus('');
+    }
+  }
+
+
+  bool _isValid() {
+    try {
+      return BtcUtil.validate(privateKeyController.text, publicAddressController.text);
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
 
 
   void _clear() {
     privateKeyController.clear();
     publicAddressController.clear();
-    setState(() {
-      _status = '';
-    });
+    _setStatus('');
   }
 
+
+  void _setStatus(String status) {
+    setState(() {
+      _status = status;
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
