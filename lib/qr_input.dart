@@ -4,7 +4,6 @@ import 'package:keycheck/qr_scanner.dart';
 
 class QrInput extends StatefulWidget {
   
-
   final String? hint;
   final TextEditingController controller;
 
@@ -44,7 +43,7 @@ class _QrInputState extends State<QrInput> {
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            // border: OutlineInputBorder(),
             hintText: widget.hint,
           ),
         ),
@@ -52,7 +51,7 @@ class _QrInputState extends State<QrInput> {
       Padding(
         padding: EdgeInsets.only(left: 8),
         child: ElevatedButton(
-          onPressed: showScanner, 
+          onPressed: _showScanner, 
           child: Icon(Icons.qr_code),
         ),
       )
@@ -60,17 +59,16 @@ class _QrInputState extends State<QrInput> {
   );
 
 
-  onScan(String data) {
+  _onScan(String data) {
     this.controller.text = data;
   }
 
 
-  showScanner() {
-    print('*** showScanner ***');
+  _showScanner() {
     Navigator.push(
       context, 
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => QrScanner(onScan: onScan)
+        builder: (BuildContext context) => QrScanner(onScan: _onScan)
       )
     );
   }

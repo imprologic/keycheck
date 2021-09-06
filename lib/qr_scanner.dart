@@ -76,16 +76,21 @@ class _QrScannerState extends State<QrScanner> {
     child: Row(
       children: [
         IconButton(
-          onPressed: exit, 
+          onPressed: _exit, 
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
         ),
         Spacer(flex: 1),
         IconButton(
-          onPressed: toggleFlash, 
+          onPressed: _toggleFlash, 
           icon: Icon(Icons.flash_on),
           color: Colors.white,
-        )
+        ),
+        IconButton(
+          onPressed: _flipCamera, 
+          icon: Icon(Icons.flip_camera_android),
+          color: Colors.white,
+        ),
       ],
     ),
   );
@@ -95,15 +100,15 @@ class _QrScannerState extends State<QrScanner> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen(onData);
+    controller.scannedDataStream.listen(_onData);
   }
 
 
-  void onData(Barcode scanData) {
+  void _onData(Barcode scanData) {
     if (scanData.format == BarcodeFormat.qrcode) {
       controller?.dispose();
       widget.onScan(scanData.code);
-      exit();
+      _exit();
     }
   }
 
@@ -124,12 +129,18 @@ class _QrScannerState extends State<QrScanner> {
   }
 
 
-  void exit() {
+  void _exit() {
     Navigator.of(context).pop();
   }
 
-  void toggleFlash() {
 
+  void _toggleFlash() async {
+    await controller?.toggleFlash();
+  }
+
+
+  void _flipCamera() async {
+    await controller?.flipCamera();
   }
 
 }
