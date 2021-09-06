@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keycheck/btc_util.dart';
 import 'package:keycheck/qr_input.dart';
+import 'package:keycheck/validation_status.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -17,9 +18,34 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  static const double SPACING = 20;
+
   final publicAddressController = TextEditingController();
   final privateKeyController = TextEditingController();
-  String _status = '';
+  ValidationStatus _status = ValidationStatus.idle;
+
+  static String textForStatus(ValidationStatus status) {
+    switch (status) {
+      case ValidationStatus.valid:
+        return 'VALID';
+      case ValidationStatus.invalid:
+        return 'INVALID';
+      default:
+        return '';
+    }
+  }
+
+
+  static Color colorForStatus(ValidationStatus status) {
+    switch (status) {
+      case ValidationStatus.valid:
+        return Colors.green[200]!;
+      case ValidationStatus.invalid:
+        return Colors.red[200]!;
+      default:
+        return Colors.transparent;
+    }
+  }
 
 
   @override
@@ -31,11 +57,10 @@ class _HomePageState extends State<HomePage> {
 
 
   void _onChange() {
-    // print('[ ${publicAddressController.text}, ${privateKeyController.text} ]');
     if (privateKeyController.text.length > 0 && publicAddressController.text.length > 0) {
-      _setStatus(_isValid() ? 'VALID' : 'INVALID');
+      _setStatus(_isValid() ? ValidationStatus.valid : ValidationStatus.invalid);
     } else {
-      _setStatus('');
+      _setStatus(ValidationStatus.idle);
     }
   }
 
@@ -53,11 +78,11 @@ class _HomePageState extends State<HomePage> {
   void _clear() {
     privateKeyController.clear();
     publicAddressController.clear();
-    _setStatus('');
+    _setStatus(ValidationStatus.idle);
   }
 
 
-  void _setStatus(String status) {
+  void _setStatus(ValidationStatus status) {
     setState(() {
       _status = status;
     });
@@ -73,28 +98,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(SPACING),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: QrInput(
-                  hint: 'Public address',
-                  controller: publicAddressController,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: QrInput(
-                  hint: 'Private key',
-                  controller: privateKeyController,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text(_status)
-              ),
+              _buildInput(context, publicAddressController, 'Public address'),
+              _buildInput(context, privateKeyController, 'Private key'),
+              _buildResult(context),
             ],
           ),
         ),
@@ -106,5 +116,33 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+
+  _buildInput(BuildContext context, TextEditingController controller, String hint) => Padding(
+    padding: EdgeInsets.only(bottom: SPACING),
+    child: QrInput(
+      controller: controller,
+      hint: hint,
+    ),
+  );
+
+
+  _buildResult(BuildContext context) => Container(
+    width: double.infinity,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      color: colorForStatus(_status),
+      borderRadius: BorderRadius.all(Radius.circular(SPACING))
+    ),
+    child: Padding(
+      padding: EdgeInsets.all(SPACING),
+      child: Text(
+        textForStatus(_status),
+        style: TextStyle(
+          fontWeight: FontWeight.bold
+        ),
+      )
+    ),
+  );
 
 }

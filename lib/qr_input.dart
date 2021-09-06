@@ -43,7 +43,6 @@ class _QrInputState extends State<QrInput> {
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
-            // border: OutlineInputBorder(),
             hintText: widget.hint,
           ),
         ),
