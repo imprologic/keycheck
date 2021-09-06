@@ -3,10 +3,18 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class QrScanner extends StatefulWidget {
+
+  final Function(String data) onScan;
+  
+  QrScanner({
+    required this.onScan
+  });
+
   @override
   State<StatefulWidget> createState() => _QrScannerState();
 }
@@ -147,12 +155,18 @@ class _QrScannerState extends State<QrScanner> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-    });
+    controller.scannedDataStream.listen(onData);
   }
+
+
+  void onData(Barcode scanData) {
+    if (scanData.format == BarcodeFormat.qrcode) {
+      controller!.dispose();
+      widget.onScan(scanData.code);
+      exit();
+    }
+  }
+
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
@@ -168,4 +182,10 @@ class _QrScannerState extends State<QrScanner> {
     controller?.dispose();
     super.dispose();
   }
+
+
+  void exit() {
+    Navigator.of(context).pop();
+  }
+
 }

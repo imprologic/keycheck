@@ -60,12 +60,17 @@ class _QrInputState extends State<QrInput> {
   );
 
 
+  onScan(String data) {
+    this.controller.text = data;
+  }
+
+
   showScanner() {
     print('*** showScanner ***');
     Navigator.push(
       context, 
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => QrScanner()
+        builder: (BuildContext context) => QrScanner(onScan: onScan)
       )
     );
   }
