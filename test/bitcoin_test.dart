@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bip39/bip39.dart' as bip39;
 
+import 'common.dart';
+
 
 main() {
 
@@ -32,9 +34,8 @@ main() {
 
 
   test('create WIF wallet and validate address', () {
-    final wif = 'L27S88Ld6thaRcSPg7pRc1PSZXomjz5RcMkkqgujur3fN5d9vVAp';
-    final wallet = Wallet.fromWIF(wif);
-    expect(wallet.address, '1E4RXuGMyo6yUKbeGNMh38otdF8BFrntdm');
+    final wallet = Wallet.fromWIF(GOOD_PRIVATE_KEY);
+    expect(wallet.address, GOOD_PUBLIC_ADDRESS);
   });
 
 

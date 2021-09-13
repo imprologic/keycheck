@@ -4,8 +4,8 @@ import 'package:keycheck/qr_scanner.dart';
 
 class QrInput extends StatefulWidget {
   
-  final String? hint;
   final TextEditingController controller;
+  final String? hint;
 
 
   QrInput({

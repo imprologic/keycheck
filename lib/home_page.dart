@@ -5,9 +5,15 @@ import 'package:keycheck/validation_status.dart';
 
 class HomePage extends StatefulWidget {
 
-  final String title;
+  static const String VALID = 'VALID';
+  static const String INVALID = 'INVALID';
 
-  HomePage({Key? key, required this.title}) : super(key: key);
+  final String title = 'BTC Wallet Checker';
+
+  final publicAddressController = TextEditingController();
+  final privateKeyController = TextEditingController();
+
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -20,16 +26,17 @@ class _HomePageState extends State<HomePage> {
 
   static const double SPACING = 20;
 
-  final publicAddressController = TextEditingController();
-  final privateKeyController = TextEditingController();
   ValidationStatus _status = ValidationStatus.idle;
+
+  late TextEditingController publicAddressController = widget.publicAddressController;
+  late TextEditingController privateKeyController = widget.privateKeyController;
 
   static String textForStatus(ValidationStatus status) {
     switch (status) {
       case ValidationStatus.valid:
-        return 'VALID';
+        return HomePage.VALID;
       case ValidationStatus.invalid:
-        return 'INVALID';
+        return HomePage.INVALID;
       default:
         return '';
     }
