@@ -1,13 +1,33 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-import 'package:bip39/bip39.dart' as bip39;
+
 
 import 'common.dart';
 
 
+/// Test assumptions about how the `bitcoin_flutter` library works.
+/// Useful when upgrading dependecies to ensure no breaking changes have been introduced
+/// in this library.
 main() {
 
+  test('create WIF wallet and validate address', () {
+    final wallet = Wallet.fromWIF(GOOD_PRIVATE_KEY);
+    expect(wallet.address, GOOD_PUBLIC_ADDRESS);
+  });
+
+
+  test('validate signature', () {
+    final wif = 'L27S88Ld6thaRcSPg7pRc1PSZXomjz5RcMkkqgujur3fN5d9vVAp';
+    final wallet = Wallet.fromWIF(wif);
+    final message = 'Who is John Galt?';
+    final signature = wallet.sign(message);
+    final valid = wallet.verify(message: message, signature: signature);
+    expect(valid, true);
+  });
+
+
+  /*
   test('original how-to', () {
     var seed = bip39.mnemonicToSeed('praise you muffin lion enable neck grocery crumble super myself license ghost');
     var hdWallet = new HDWallet.fromSeed(seed);
@@ -31,21 +51,7 @@ main() {
     print(wallet.wif);
     // => Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct
   });
+  */
 
-
-  test('create WIF wallet and validate address', () {
-    final wallet = Wallet.fromWIF(GOOD_PRIVATE_KEY);
-    expect(wallet.address, GOOD_PUBLIC_ADDRESS);
-  });
-
-
-  test('validate signature', () {
-    final wif = 'L27S88Ld6thaRcSPg7pRc1PSZXomjz5RcMkkqgujur3fN5d9vVAp';
-    final wallet = Wallet.fromWIF(wif);
-    final message = 'Who is John Galt?';
-    final signature = wallet.sign(message);
-    final valid = wallet.verify(message: message, signature: signature);
-    expect(valid, true);
-  });
 
 }

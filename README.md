@@ -1,22 +1,19 @@
 # KeyCheck
 
-Check if the BTC wallet private key matches the public address.
+Check if a BTC's wallet private key matches the public address.
 
-## Getting Started
+This app may be useful for validating paper wallets.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+## Null safety
+Some of the dependencies do not provide null safety. 
+For now, we have to test / run with null safety off, as shown below.
 
 ## Test without null safety
 ```
 flutter test --no-sound-null-safety
+```
+
+## Run without null safety
+```
+flutter run --no-sound-null-safety
 ```

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.keycheck">
+    package="com.imprologic.keycheck">
    <application
-        android:label="keycheck"
+        android:label="KeyCheck"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

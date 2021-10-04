@@ -1,4 +1,4 @@
-package com.example.keycheck
+package com.imprologic.keycheck
 
 import io.flutter.embedding.android.FlutterActivity
 
